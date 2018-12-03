@@ -42,3 +42,35 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+### 技术选型
+* 前台数据展示/交互/组件化
+    * react
+    * react-router-dom
+    * redux
+    * antd-mobile
+* 后台项目
+    * node
+    * express
+    * mongodb
+    * mongoose
+    * socket.io
+* 前后台交互
+    * ajax 请求
+        * axios
+        * async / await
+    * 测试 API 接口
+        >
+        * postman
+* 模块化
+    * ES6
+    * babel
+* 项目构建/工程化
+    * webpack
+    * react-create-app
+    * eslint
+* 其他相关库
+    * blueimp-md5
+    * js-cookie
+    * rc-queue-anim
+
