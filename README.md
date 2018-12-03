@@ -47,7 +47,9 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 * 前台数据展示/交互/组件化
     * react
     * react-router-dom
+        > npm i react-router-dom -S
     * redux
+        > npm i redux react-redux redux-thunk redux-devtools-extension -S
     * antd-mobile
         * 引入 看文档
         * 按需打包
@@ -63,7 +65,6 @@ To learn React, check out the [React documentation](https://reactjs.org/).
         * axios
         * async / await
     * 测试 API 接口
-
         * postman
 * 模块化
     * ES6
