@@ -49,6 +49,9 @@ To learn React, check out the [React documentation](https://reactjs.org/).
     * react-router-dom
     * redux
     * antd-mobile
+        * 引入 看文档
+        * 按需打包
+            > npm i -D babel-plugin-import react-app-rewired
 * 后台项目
     * node
     * express
@@ -60,7 +63,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
         * axios
         * async / await
     * 测试 API 接口
-        >
+
         * postman
 * 模块化
     * ES6
