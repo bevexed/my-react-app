@@ -3,18 +3,29 @@
 * */
 
 import {combineReducers} from "redux";
+import {AUTH_SUCCESS, ERROR_MSG} from "./action-types";
 
-function xxx(state = 0, action) {
-    return state
+// 产生user 状态的 reducer
+const initUser = {
+    username: '',
+    type: '',
+    msg: ''
 }
 
-function yyy(state = 0, action) {
-    return state
+function user(state = initUser, action) {
+    switch (action.type) {
+        case AUTH_SUCCESS:
+            return {...state, ...action.data}
+        case ERROR_MSG:
+            return {...state, msg: action.data}
+        default:
+            return state
+    }
 }
+
 
 export default combineReducers({
-    xxx,
-    yyy
+    user
 })
 // 向外暴露的状态的结构：{xxx:0,yyy:0}
 

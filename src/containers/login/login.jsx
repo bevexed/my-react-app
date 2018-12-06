@@ -13,15 +13,24 @@ import {
 } from "antd-mobile";
 
 
-
 export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {};
     }
-    toRegister = () =>{
+
+    toRegister = () => {
         this.props.history.replace('/register')
     }
+    toLogin = () => {
+        console.log(this.state);
+    }
+    handleChange = (name,val)=>{
+        this.setState({
+            [name]:val
+        })
+    }
+
     render() {
         return (
             <div>
@@ -30,13 +39,13 @@ export default class Login extends Component {
                 <WingBlank>
                     <List>
                         <WhiteSpace/>
-                        <InputItem>用户名:</InputItem>
+                        <InputItem onChange={val => this.handleChange('username',val)}>用户名:</InputItem>
                         <WhiteSpace/>
-                        <InputItem type="password">密码:</InputItem>
+                        <InputItem type="password" onChange={val => this.handleChange('password',val)}>密码:</InputItem>
                         <WhiteSpace/>
                     </List>
                     <WhiteSpace/>
-                    <Button type="primary">登录</Button>
+                    <Button type="primary" onClick={this.toLogin}>登录</Button>
                     <WhiteSpace/>
                     <Button onClick={this.toRegister}>还没有账户</Button>
                 </WingBlank>

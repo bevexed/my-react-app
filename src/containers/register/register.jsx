@@ -12,10 +12,12 @@ import {
     Radio,
     Button
 } from "antd-mobile";
+import {connect} from 'react-redux'
+import {register} from "../../redux/actions";
 
 const ListItem = List.Item
 
-export default class Register extends Component {
+class Register extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -28,6 +30,7 @@ export default class Register extends Component {
 
     register = () => {
         console.log(this.state);
+        this.props.register(this.state)
     }
     handleChange = (name, val) => {
         // 更新状态
@@ -69,3 +72,7 @@ export default class Register extends Component {
         )
     }
 }
+export default connect(
+    state =>({}),
+    {register}
+)(Register)

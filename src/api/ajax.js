@@ -1,4 +1,4 @@
-import fly from 'fly-js'
+import axios from 'axios'
 
 export default function ajax(url, data = {}, type = "POST") {
     return new Promise((resolve, reject) => {
@@ -12,14 +12,14 @@ export default function ajax(url, data = {}, type = "POST") {
                 dataStr = dataStr.substring(0, dataStr.lastIndexOf('&'))
                 url = url + '?' + dataStr
             }
-            promise = fly.get(url)
+            promise = axios.get(url)
         } else {
-            promise = fly.post(url, data)
+            promise = axios.post(url, data)
         }
         promise.then(response => {
             resolve(response.data)
         }).catch(error => {
             reject(error)
         })
-    }
+    })
 }

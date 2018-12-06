@@ -1,3 +1,6 @@
 import ajax from './ajax'
 
-let a = ajax('http://wallpaper.apc.360.cn/index.php?c=WallPaperAndroid&a=getAllCategories')
+// const BASE = 'http://localhost:4000'
+
+export const reqRegister = (user) => ajax('/register', user)
+export const reqLogin = (username, password) => ajax('/login', {username, password})
