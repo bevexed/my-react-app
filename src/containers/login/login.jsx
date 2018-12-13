@@ -2,6 +2,9 @@
 * 登录组件
 * */
 import React, {Component} from 'react';
+import {connect} from 'react-redux'
+import {Redirect} from "react-router-dom";
+import {login} from "../../redux/actions";
 import Logo from '../../components/logo/logo'
 import {
     NavBar,
@@ -13,7 +16,7 @@ import {
 } from "antd-mobile";
 
 
-export default class Login extends Component {
+class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -24,6 +27,7 @@ export default class Login extends Component {
     }
     toLogin = () => {
         console.log(this.state);
+        this.props.login(this.state)
     }
     handleChange = (name,val)=>{
         this.setState({
@@ -32,8 +36,13 @@ export default class Login extends Component {
     }
 
     render() {
+        const {msg,redirectTo} = this.props.user
+        if (redirectTo){
+            return <Redirect to={redirectTo}/>
+        }
         return (
             <div>
+                {msg?<div>{msg}</div>:null}
                 <NavBar>我的第一个REACT项目</NavBar>
                 <Logo/>
                 <WingBlank>
@@ -52,3 +61,8 @@ export default class Login extends Component {
             </div>)
     }
 }
+
+export default connect(
+    state => ({user: state.user}),
+    {login}
+)(Login)

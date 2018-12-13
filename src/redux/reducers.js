@@ -9,13 +9,14 @@ import {AUTH_SUCCESS, ERROR_MSG} from "./action-types";
 const initUser = {
     username: '',
     type: '',
-    msg: ''
+    msg: '',
+    redirectTo:'' // 需要自动重定向的路由路径
 }
 
 function user(state = initUser, action) {
     switch (action.type) {
         case AUTH_SUCCESS:
-            return {...state, ...action.data}
+            return {...action.data,redirectTo: "/"}
         case ERROR_MSG:
             return {...state, msg: action.data}
         default:

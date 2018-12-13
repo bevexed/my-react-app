@@ -23,7 +23,7 @@ export const register = (user) => {
         // 发送注册的异步 ajax 请求
         const result = await reqRegister(user)
         console.log(result);
-        if (result.code = 0) {
+        if (result.code === 0) {
             // 分发成功的同步action
             dispatch(authSuccess(result.data))
         } else {
@@ -34,10 +34,15 @@ export const register = (user) => {
 
 
 // 登录
-export const login = (username, password) => {
+export const login = (user) => {
     return async dispatch => {
         // 发送注册的异步 ajax 请求
-        const result = await reqLogin(username, password)
-        console.log(result);
+        const result = await reqLogin(user)
+        if (result.code === 0) {
+            // 分发成功的同步action
+            dispatch(authSuccess(result.data))
+        } else {
+            dispatch(errprMsg(result.msg))
+        }
     }
 }
