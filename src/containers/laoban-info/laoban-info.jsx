@@ -18,34 +18,42 @@ class LaobanInfo extends Component {
     info: "",
     company: "",
     salary: ""
-  }
-  handelChange = (name,value) => {
+  };
+  handelChange = (name, value) => {
     this.setState({
-      [name]:value
+      [name]: value
     })
-  }
+  };
   // 更新 header 状态
   setHeader = (header) => {
     this.setState({
       header
     })
-  }
+  };
 
-  save = () =>{
+  save = () => {
     console.log(this.state);
-  }
+  };
 
   render() {
     return (
       <div>
         <NavBar>老板信息完善</NavBar>
         <HeaderSelector setHeader={this.setHeader}/>
-        <InputItem placeholder="请输入招聘职位" onChange={val => {this.handelChange('post',val)}}>招聘职位：</InputItem>
-        <InputItem placeholder="请输入公司名称" onChange={val => {this.handelChange('company',val)}}>公司名称：</InputItem>
-        <InputItem placeholder="请输入职位薪资" onChange={val => {this.handelChange('salary',val)}}>职位薪资：</InputItem>
+        <InputItem placeholder="请输入招聘职位" onChange={val => {
+          this.handelChange('post', val)
+        }}>招聘职位：</InputItem>
+        <InputItem placeholder="请输入公司名称" onChange={val => {
+          this.handelChange('company', val)
+        }}>公司名称：</InputItem>
+        <InputItem placeholder="请输入职位薪资" onChange={val => {
+          this.handelChange('salary', val)
+        }}>职位薪资：</InputItem>
         <TextareaItem title="职位要求："
                       rows={3}
-                      onChange={val => {this.handelChange('info',val)}}
+                      onChange={val => {
+                        this.handelChange('info', val)
+                      }}
         />
         <Button type="primary" onClick={this.save}>保存</Button>
       </div>

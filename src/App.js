@@ -10,22 +10,22 @@ import Main from './containers/main/main'
 
 
 class App extends Component {
-    render() {
-        return (
-            <div className="App">
-                <Provider store={store}>
-                    <HashRouter>
-                        <Switch>
-                            <Route path='/register' component={Register}/>
-                            <Route path='/login' component={Login}/>
-                            <Route component={Main}/> {/* 默认组件*/}
-                        </Switch>
-                    </HashRouter>
-                </Provider>
+  render() {
+    return (
+      <div className="App">
+        <Provider store={store}>
+          <HashRouter>
+            <Switch>
+              <Route exact path='/register' component={Register}/>
+              <Route exact path='/login' component={Login}/>
+              <Route component={Main}/> {/* 默认组件*/}
+            </Switch>
+          </HashRouter>
+        </Provider>
 
-            </div>
-        );
-    }
+      </div>
+    );
+  }
 }
 
 export default App;
