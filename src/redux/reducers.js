@@ -15,10 +15,9 @@ const initUser = {
   redirectTo: '' // 需要自动重定向的路由路径
 };
 
-function user(state = initUser, action) {
+function users(state = initUser, action) {
   switch (action.type) {
     case AUTH_SUCCESS:
-      console.log(action);
       const {type, header} = action.data
       return {...action.data, redirectTo: getRedirectTo(type, header)};
     case ERROR_MSG:
@@ -30,7 +29,6 @@ function user(state = initUser, action) {
 
 
 export default combineReducers({
-  user
+  users
 })
-// 向外暴露的状态的结构：{xxx:0,yyy:0}
 

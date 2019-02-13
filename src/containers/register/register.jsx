@@ -80,6 +80,6 @@ class Register extends Component {
 }
 
 export default connect(
-  state => ({user: state.user}), // 数据
+  state => ({user: state.users}), // 数据
   {register} // 函数
 )(Register) // 组件

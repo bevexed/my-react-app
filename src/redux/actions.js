@@ -9,7 +9,8 @@ import {
 } from "./action-types";
 import {
   reqRegister,
-  reqLogin
+  reqLogin,
+  updateUser
 } from "../api";
 
 import {Toast} from 'antd-mobile';
@@ -38,7 +39,6 @@ export const register = (user) => {
   return async dispatch => {
     // 发送注册的异步 ajax 请求
     const result = await reqRegister(user);
-    console.log(result);
     if (result.code === 0) {
       // 分发成功的同步action
       dispatch(authSuccess(result.data))
@@ -67,5 +67,22 @@ export const login = (user) => {
     } else {
       dispatch(errorMsg(result.msg))
     }
+  }
+};
+
+
+// 更新用户数据
+export const updateUserData = (user) => {
+  return async dispatch => {
+    updateUser(user).then(
+      res => {
+        if (res.code === 0) {
+          dispatch(authSuccess(res.data))
+        }
+      },
+      error => {
+        dispatch(errorMsg(error.msg))
+      }
+    )
   }
 };
