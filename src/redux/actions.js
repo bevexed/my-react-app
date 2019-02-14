@@ -5,7 +5,9 @@
 */
 import {
   AUTH_SUCCESS,
-  ERROR_MSG
+  ERROR_MSG,
+  RECEIVE_USER,
+  RESET_USER
 } from "./action-types";
 import {
   reqRegister,
@@ -15,14 +17,18 @@ import {
 
 import {Toast} from 'antd-mobile';
 
-// 成功同步 action
-const authSuccess = (user) => ({type: AUTH_SUCCESS, data: user});
+//同步 action
+// 成功
+const authSuccess = user => ({type: AUTH_SUCCESS, data: user});
 // 失败
-const errorMsg = (msg) => {
+const errorMsg = msg => {
     Toast.fail(msg, 1);
     return {type: ERROR_MSG, data: msg}
   }
 ;
+
+const receiveUser = user => ({type: RECEIVE_USER, data: user});
+const resetUser = msg => ({type: RESET_USER, data: msg});
 
 // 注册
 export const register = (user) => {
@@ -77,11 +83,13 @@ export const updateUserData = (user) => {
     updateUser(user).then(
       res => {
         if (res.code === 0) {
-          dispatch(authSuccess(res.data))
+          dispatch(receiveUser(res.data))
+        } else {
+          dispatch(resetUser(res.msg))
         }
       },
       error => {
-        dispatch(errorMsg(error.msg))
+
       }
     )
   }
