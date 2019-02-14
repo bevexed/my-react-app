@@ -10,18 +10,63 @@ import {Switch, Route} from "react-router-dom";
 
 import LaobanInfo from '../laoban-info/laoban-info'
 import DashenInfo from '../dashen-info/dashen-info'
+import Laoban from '../laoban/laoban'
+import Dashen from '../dashen/dashen'
+import Message from '../message/message'
+import Person from '../person/person'
+import NotFound from '../../components/NotFound/404'
 
 import {Redirect} from "react-router-dom";
 import {connect} from 'react-redux'
 import {getRedirectTo} from "../../utils";
+import {getUserData} from "../../redux/actions";
 
 import Cookies from 'js-cookie'
+
+import {NavBar} from "antd-mobile";
 
 class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
+
+  componentDidMount() {
+    const userId = Cookies.get('userid');
+    const {_id} = this.props.user;
+    if (userId && !_id) {
+      this.props.getUserData()
+    }
+    getUserData()
+  }
+
+  navList = [
+    {
+      path: '/laoban',
+      component: Laoban,
+      title: '大神列表',
+      icon: 'dashen',
+      text: '大神'
+    }, {
+      path: '/dashen',
+      component: Dashen,
+      title: '老板列表',
+      icon: 'laoban',
+      text: '老板'
+    }, {
+      path: '/message',
+      component: Message,
+      title: '信息列表',
+      icon: 'message',
+      text: '信息'
+    }, {
+      path: '/person',
+      component: Person,
+      title: '个人信息',
+      icon: 'person',
+      text: '个人信息'
+    }
+  ];
 
   render() {
     // 读取 cookie 中的 userId
@@ -41,12 +86,20 @@ class Main extends Component {
         return <Redirect to={path}/>
       }
     }
+
+    const {navList} = this;
+    const pathname = this.props.location.pathname;
+    const currentNav = navList.find(nav => nav.path === pathname);
     return (
       <div>
+        {currentNav ? <NavBar>{currentNav.title}</NavBar> : null}
         <Switch>
+          {navList.map(nav => <Route path={nav.path} component={nav.component} key={nav}/>)}
           <Route path={'/laoban-info'} component={LaobanInfo}/>
           <Route path={'/dashen-info'} component={DashenInfo}/>
+          <Route component={NotFound}/>
         </Switch>
+
       </div>
     )
   }
@@ -54,4 +107,5 @@ class Main extends Component {
 
 export default connect(
   state => ({user: state.users}),
+  {getUserData}
 )(Main)

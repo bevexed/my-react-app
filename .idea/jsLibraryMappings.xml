@@ -2,6 +2,6 @@
 <project version="4">
   <component name="JavaScriptLibraryMappings">
     <file url="file://$PROJECT_DIR$" libraries="{my-react-app/node_modules}" />
-    <file url="PROJECT" libraries="{my-react-app/node_modules}" />
+    <file url="PROJECT" libraries="{@types/react-codemirror, my-react-app/node_modules}" />
   </component>
 </project>

@@ -12,7 +12,8 @@ import {
 import {
   reqRegister,
   reqLogin,
-  updateUser
+  updateUser,
+  getUser,
 } from "../api";
 
 import {Toast} from 'antd-mobile';
@@ -89,7 +90,21 @@ export const updateUserData = (user) => {
         }
       },
       error => {
+      }
+    )
+  }
+};
 
+// 异步获取用户数据
+export const getUserData = () => {
+  return async dispatch => {
+    getUser().then(
+      res => {
+        if (res.code === 0) {
+          dispatch(receiveUser(res.data))
+        } else {
+          dispatch(resetUser(res.msg))
+        }
       }
     )
   }
