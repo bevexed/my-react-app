@@ -7,13 +7,15 @@ import {
   AUTH_SUCCESS,
   ERROR_MSG,
   RECEIVE_USER,
-  RESET_USER
+  RESET_USER,
+  RECEIVE_USER_LIST
 } from "./action-types";
 import {
   reqRegister,
   reqLogin,
   updateUser,
   getUser,
+  reqUserList
 } from "../api";
 
 import {Toast} from 'antd-mobile';
@@ -30,6 +32,8 @@ const errorMsg = msg => {
 
 const receiveUser = user => ({type: RECEIVE_USER, data: user});
 export const resetUser = msg => ({type: RESET_USER, data: msg});
+
+const receiveUserList = msg => ({type: RECEIVE_USER_LIST, data: msg});
 
 // 注册
 export const register = (user) => {
@@ -104,6 +108,19 @@ export const getUserData = () => {
           dispatch(receiveUser(res.data))
         } else {
           dispatch(resetUser(res.msg))
+        }
+      }
+    )
+  }
+};
+
+// 异步获取 用户列表
+export const getUserList = (type) => {
+  return async dispatch => {
+    reqUserList(type).then(
+      res => {
+        if (res.code === 0) {
+          dispatch(receiveUserList(res.data))
         }
       }
     )
