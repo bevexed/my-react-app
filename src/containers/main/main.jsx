@@ -15,6 +15,7 @@ import Dashen from '../dashen/dashen'
 import Message from '../message/message'
 import Person from '../person/person'
 import NotFound from '../../components/NotFound/404'
+import NavFoot from '../../components/NavFoot/NavFoot'
 
 import {Redirect} from "react-router-dom";
 import {connect} from 'react-redux'
@@ -40,19 +41,23 @@ class Main extends Component {
     getUserData()
   }
 
+  realNavList = [];
+
   navList = [
     {
       path: '/laoban',
       component: Laoban,
       title: '大神列表',
       icon: 'dashen',
-      text: '大神'
+      text: '大神',
+      type: 'laoban'
     }, {
       path: '/dashen',
       component: Dashen,
       title: '老板列表',
       icon: 'laoban',
-      text: '老板'
+      text: '老板',
+      type: 'dashen'
     }, {
       path: '/message',
       component: Message,
@@ -89,6 +94,7 @@ class Main extends Component {
 
     const {navList} = this;
     const pathname = this.props.location.pathname;
+    this.realNavList = navList.filter(nav => nav.type !== user.type);
     const currentNav = navList.find(nav => nav.path === pathname);
     return (
       <div>
@@ -99,7 +105,7 @@ class Main extends Component {
           <Route path={'/dashen-info'} component={DashenInfo}/>
           <Route component={NotFound}/>
         </Switch>
-
+        <NavFoot realNavList={this.realNavList}/>
       </div>
     )
   }
