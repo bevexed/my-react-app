@@ -2,13 +2,16 @@ import React, {PureComponent} from 'react';
 import PropTypes from 'prop-types';
 import {TabBar} from "antd-mobile";
 import {withRouter} from 'react-router-dom'
+import '../../App.css';
 
 class NavFoot extends PureComponent {
   render() {
     const {realNavList} = this.props;
     const path = this.props.location.pathname;
     return (
-      <TabBar>
+      <TabBar
+        tabBarPosition={'bottom'}
+      >
         {
           realNavList.map(nav =>
             <TabBar.Item
@@ -17,7 +20,7 @@ class NavFoot extends PureComponent {
               icon={{uri: require(`./img/${nav.icon}.svg`)}}
               selectedIcon={{uri: require(`./img/${nav.icon}-select.svg`)}}
               selected={path === nav.path}
-              onPress={()=>this.props.history.replace(nav.path)}
+              onPress={() => this.props.history.replace(nav.path)}
             />
           )
         }

@@ -97,7 +97,7 @@ class Main extends Component {
     this.realNavList = navList.filter(nav => nav.type !== user.type);
     const currentNav = navList.find(nav => nav.path === pathname);
     return (
-      <div>
+      <div style={{minHeight: '100vh'}}>
         {currentNav ? <NavBar>{currentNav.title}</NavBar> : null}
         <Switch>
           {navList.map(nav => <Route path={nav.path} component={nav.component} key={nav}/>)}

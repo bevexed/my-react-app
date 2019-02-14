@@ -29,7 +29,7 @@ const errorMsg = msg => {
 ;
 
 const receiveUser = user => ({type: RECEIVE_USER, data: user});
-const resetUser = msg => ({type: RESET_USER, data: msg});
+export const resetUser = msg => ({type: RESET_USER, data: msg});
 
 // 注册
 export const register = (user) => {
