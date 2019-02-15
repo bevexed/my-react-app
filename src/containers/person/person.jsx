@@ -58,6 +58,11 @@ class Person extends Component {
         <WhiteSpace/>
 
         <Button type={'warning'} onClick={() => this.loginOut()}>退出</Button>
+
+        <WhiteSpace/>
+        <Button type={'warning'} onClick={() => this.props.history.goBack()}>退出</Button>
+
+
       </div>
     )
       ;

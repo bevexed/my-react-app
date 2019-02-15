@@ -16,6 +16,7 @@ import Message from '../message/message'
 import Person from '../person/person'
 import NotFound from '../../components/NotFound/404'
 import NavFoot from '../../components/NavFoot/NavFoot'
+import Chat from '../chat/chat'
 
 import {Redirect} from "react-router-dom";
 import {connect} from 'react-redux'
@@ -46,18 +47,18 @@ class Main extends Component {
   navList = [
     {
       path: '/laoban',
-      component: Laoban,
+      component: Dashen,
       title: '大神列表',
       icon: 'dashen',
       text: '大神',
-      type: 'laoban'
+      type: 'dashen'
     }, {
       path: '/dashen',
-      component: Dashen,
+      component: Laoban,
       title: '老板列表',
       icon: 'laoban',
       text: '老板',
-      type: 'dashen'
+      type: 'laoban'
     }, {
       path: '/message',
       component: Message,
@@ -95,17 +96,19 @@ class Main extends Component {
     const {navList} = this;
     const pathname = this.props.location.pathname;
     this.realNavList = navList.filter(nav => nav.type !== user.type);
-    const currentNav = navList.find(nav => nav.path === pathname);
+    const currentNav = this.realNavList.find(nav => nav.path === pathname);
     return (
       <div style={{minHeight: '100vh'}}>
         {currentNav ? <NavBar>{currentNav.title}</NavBar> : null}
         <Switch>
-          {navList.map(nav => <Route path={nav.path} component={nav.component} key={nav}/>)}
+          {this.realNavList.map(nav => <Route path={nav.path} component={nav.component} key={nav}/>)}
           <Route path={'/laoban-info'} component={LaobanInfo}/>
           <Route path={'/dashen-info'} component={DashenInfo}/>
+          <Route path={'/chat/:userid'} component={Chat}/>
           <Route component={NotFound}/>
         </Switch>
-        <NavFoot realNavList={this.realNavList}/>
+        {currentNav ? <NavFoot realNavList={this.realNavList}/> : null}
+
       </div>
     )
   }

@@ -1,12 +1,16 @@
-.main{
-  min-height: 100vh;
+.main {
+  padding-top: 50px;
 }
 
-.footer{
 
+.am-navbar {
+  width: 100%;
+  position: fixed;
+  z-index: 10;
 }
 
-.am-tabs-tab-bar-wrap{
+.am-tabs-tab-bar-wrap {
+  z-index: 10;
   width: 100%;
   position: fixed;
   bottom: 0;

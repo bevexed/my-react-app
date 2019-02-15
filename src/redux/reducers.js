@@ -40,18 +40,18 @@ function users(state = initUser, action) {
 // 产生userList
 const initUserList = [];
 
-function UserList(state = initUserList, action) {
+function userList(state = initUserList, action) {
 switch (action.type) {
   case RECEIVE_USER_LIST:
     return action.data;
   default:
     return state;
-
 }
 }
 
 
 export default combineReducers({
-  users
+  users,
+  userList
 })
 
