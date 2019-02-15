@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {withRouter} from 'react-router-dom'
 
 import {
   WingBlank,
@@ -10,7 +11,7 @@ import {
 const Header = Card.Header;
 const Body = Card.Body;
 
-export default class UserList extends Component {
+class UserList extends Component {
 
   render() {
     const {userList} = this.props;
@@ -20,7 +21,7 @@ export default class UserList extends Component {
           userList.map(user =>
             <div key={user._id}>
               <WhiteSpace/>
-              <Card>
+              <Card onClick={()=>this.props.history.push('/chat/1')}>
                 <Header
                   thumb={require('../../components/header-selector/1.png')}
                   thumbStyle={{height:'40px'}}
@@ -43,3 +44,4 @@ UserList.propTypes = {
   userList: PropTypes.array.isRequired
 };
 
+export default withRouter(UserList)
