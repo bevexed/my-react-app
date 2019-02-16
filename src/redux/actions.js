@@ -3,19 +3,24 @@
 * 异步 action
 * 同步 action
 */
+import io from 'socket.io-client'
 import {
   AUTH_SUCCESS,
   ERROR_MSG,
   RECEIVE_USER,
   RESET_USER,
-  RECEIVE_USER_LIST
+  RECEIVE_USER_LIST,
+  RECEIVE_MSG_LIST,
+  RECEIVE_MSG
 } from "./action-types";
 import {
   reqRegister,
   reqLogin,
   updateUser,
   getUser,
-  reqUserList
+  reqUserList,
+  reqMsgList,
+  reqReadMsg
 } from "../api";
 
 import {Toast} from 'antd-mobile';
@@ -35,6 +40,8 @@ export const resetUser = msg => ({type: RESET_USER, data: msg});
 
 const receiveUserList = msg => ({type: RECEIVE_USER_LIST, data: msg});
 
+export const receiveMsgList = ({users, chatMsgs}) => ({type: RECEIVE_MSG_LIST, data: {users, chatMsgs}});
+
 // 注册
 export const register = (user) => {
   const {password, username, password2, type} = user;
@@ -52,6 +59,7 @@ export const register = (user) => {
     const result = await reqRegister(user);
     if (result.code === 0) {
       // 分发成功的同步action
+      getMsgList(dispatch);
       dispatch(authSuccess(result.data))
     } else {
       dispatch(errorMsg(result.msg))
@@ -74,6 +82,7 @@ export const login = (user) => {
     const result = await reqLogin(user);
     if (result.code === 0) {
       // 分发成功的同步action
+      getMsgList(dispatch);
       dispatch(authSuccess(result.data))
     } else {
       dispatch(errorMsg(result.msg))
@@ -105,6 +114,7 @@ export const getUserData = () => {
     getUser().then(
       res => {
         if (res.code === 0) {
+          getMsgList(dispatch);
           dispatch(receiveUser(res.data))
         } else {
           dispatch(resetUser(res.msg))
@@ -126,3 +136,34 @@ export const getUserList = (type) => {
     )
   }
 };
+
+// 单例
+function initIO() {
+  if (!io.socket) {
+    io.socket = io(window.location.host);
+    io.socket.on('receiveMsg', function (data) {
+      console.log(data);
+    })
+  }
+}
+
+// 异步发消息
+export const sendMsg = (data) => {
+  return dispatch => {
+    initIO();
+    console.log('a', data);
+    io.socket.emit('sendMsg', data)
+  }
+};
+
+// 获取消息列表
+function getMsgList(dispatch) {
+  reqMsgList().then(
+    res => {
+      if (res.code === 0) {
+        const {users, chatMsgs} = res.data;
+        dispatch(receiveMsgList({users, chatMsgs}))
+      }
+    }
+  )
+}

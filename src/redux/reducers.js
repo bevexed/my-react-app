@@ -8,7 +8,9 @@ import {
   ERROR_MSG,
   RESET_USER,
   RECEIVE_USER,
-  RECEIVE_USER_LIST
+  RECEIVE_USER_LIST,
+  RECEIVE_MSG,
+  RECEIVE_MSG_LIST
 } from "./action-types";
 import {getRedirectTo} from "../utils";
 
@@ -41,17 +43,38 @@ function users(state = initUser, action) {
 const initUserList = [];
 
 function userList(state = initUserList, action) {
-switch (action.type) {
-  case RECEIVE_USER_LIST:
-    return action.data;
-  default:
-    return state;
+  switch (action.type) {
+    case RECEIVE_USER_LIST:
+      return action.data;
+    default:
+      return state;
+  }
 }
+
+// 聊天状态的 Reducer
+
+const initChat = {
+  users: {},
+  chatMsgs: [],
+  unReadCount: 0,
+};
+
+function chat(state = initChat, action) {
+  switch (action.type) {
+    case RECEIVE_MSG:
+      return
+    case RECEIVE_MSG_LIST:
+      const {users, chatMsgs} = action.data
+      return {users, chatMsgs, unReadCount: 0};
+    default:
+      return state
+  }
 }
 
 
 export default combineReducers({
   users,
-  userList
+  userList,
+  chat
 })
 

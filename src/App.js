@@ -8,14 +8,13 @@ import Login from './containers/login/login'
 import Register from './containers/register/register'
 import Main from './containers/main/main'
 
-import './test/socketio_test.js'
 
 class App extends Component {
   render() {
     return (
       <div className="App">
         <Provider store={store}>
-          <BrowserRouter >
+          <BrowserRouter>
             <Switch>
               <Route exact path='/register' component={Register}/>
               <Route exact path='/login' component={Login}/>

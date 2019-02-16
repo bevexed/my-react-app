@@ -21,7 +21,7 @@ class UserList extends Component {
           userList.map(user =>
             <div key={user._id}>
               <WhiteSpace/>
-              <Card onClick={()=>this.props.history.push('/chat/1')}>
+              <Card onClick={()=>this.props.history.push(`/chat/${user._id}`)}>
                 <Header
                   thumb={require('../../components/header-selector/1.png')}
                   thumbStyle={{height:'40px'}}

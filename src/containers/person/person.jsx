@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {resetUser} from "../../redux/actions";
 
+import '../../App.css'
 import Cookies from 'js-cookie';
 
 
@@ -39,7 +40,7 @@ class Person extends Component {
   render() {
     const {username, type, header, company, post, salary, info} = this.props.user;
     return (
-      <div>
+      <div style={{padding:'45px 0'}}>
         <Result
           img={<img src={require('../../components/header-selector/1.png')} style={{width: 50}} alt={company}/>}
           title={username}

@@ -2,6 +2,10 @@
   flex-basis: auto !important;
 }
 
+.am-list{
+  padding: 45px 0;
+}
+
 .chat-page .chat-me .am-list-content {
   padding-right: 15px !important;
   text-align: right !important;

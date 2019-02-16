@@ -14,3 +14,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+.main {
+  padding-top: 50px;
+}
+
+
+.am-navbar {
+  width: 100%;
+  position: fixed;
+  z-index: 10;
+}
+
+.am-tabs-tab-bar-wrap {
+  z-index: 10;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+}
