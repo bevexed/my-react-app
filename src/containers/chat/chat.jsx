@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {sendMsg} from "../../redux/actions";
+import {sendMsg,readMsg} from "../../redux/actions";
 
 import './chat.css'
 import '../../App.css'
@@ -9,6 +9,7 @@ import '../../App.css'
 import {
   NavBar,
   List,
+  Icon,
   InputItem
 } from "antd-mobile";
 
@@ -18,6 +19,21 @@ class Chat extends Component {
   state = {
     content: ''
   };
+
+  componentDidMount() {
+    window.scrollTo(0, document.body.scrollHeight);
+  }
+
+  componentWillUnmount() {
+
+    const to = this.props.user._id;
+    const from = this.props.match.params.userid;
+    this.props.readMsg(from,to);
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    window.scrollTo(0, document.body.scrollHeight)
+  }
 
   handSend = () => {
     const from = this.props.user._id;
@@ -31,17 +47,37 @@ class Chat extends Component {
   };
 
   render() {
+    const {user} = this.props;
+    const {users, chatMsgs} = this.props.chat;
+    const meId = user._id;
+    const targetId = this.props.match.params.userid;
+    const chatId = [meId, targetId].sort().join('_');
+    const msgs = chatMsgs.filter(msg => msg.chat_id === chatId);
     return (
+
       <div className="chat-page">
-        <NavBar>aa</NavBar>
+        <NavBar
+          icon={<Icon type="left"/>}
+          onLeftClick={() => this.props.history.goBack()}
+        >{users[targetId] ? users[targetId].username : null}</NavBar>
         <List>
-          <Item thumb={require('../../components/header-selector/1.png')}>你好</Item>
-          <Item thumb={require('../../components/header-selector/1.png')}>你好</Item>
-          <Item thumb={require('../../components/header-selector/1.png')}>你好</Item>
-          <Item
-            className='chat-me'
-            extra={'我'}
-          >你好</Item>
+          {
+            msgs.map(msg => {
+              if (meId === msg.from) {
+                return (
+                  <Item
+                    key={msg._id}
+                    className='chat-me'
+                    extra={'我'}
+                  >{msg.content}</Item>
+                )
+              } else {
+                return <Item key={msg._id} thumb={require('../../components/header-selector/1.png')}>{msg.content}</Item>
+              }
+            })
+          }
+
+
         </List>
         <div className={"am-tabs-tab-bar-wrap"}>
           <InputItem
@@ -60,11 +96,12 @@ class Chat extends Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.users
+    user: state.users,
+    chat: state.chat
   };
 }
 
 export default connect(
   mapStateToProps,
-  {sendMsg}
+  {sendMsg,readMsg}
 )(Chat);

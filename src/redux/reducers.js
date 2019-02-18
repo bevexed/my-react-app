@@ -10,7 +10,8 @@ import {
   RECEIVE_USER,
   RECEIVE_USER_LIST,
   RECEIVE_MSG,
-  RECEIVE_MSG_LIST
+  RECEIVE_MSG_LIST,
+  MSG_READ
 } from "./action-types";
 import {getRedirectTo} from "../utils";
 
@@ -61,11 +62,31 @@ const initChat = {
 
 function chat(state = initChat, action) {
   switch (action.type) {
-    case RECEIVE_MSG:
-      return
+    case RECEIVE_MSG: {
+      const {chatMsg, userid} = action.data;
+      return {users: state.users, chatMsgs: [...state.chatMsgs, action.data.chatMsg], unReadCount: state.unReadCount + (!chatMsg.read && chatMsg.to === userid ? 1 : 0)};
+    }
     case RECEIVE_MSG_LIST:
-      const {users, chatMsgs} = action.data
-      return {users, chatMsgs, unReadCount: 0};
+      const {users, chatMsgs, userid} = action.data;
+      return {users, chatMsgs, unReadCount: chatMsgs.reduce((preTotal, msg) => preTotal + (!msg.read && msg.to === userid ? 1 : 0), 0)};
+    case MSG_READ:
+      const {from, to, count} = action.data;
+      state.chatMsgs.forEach(msg => {
+        if (msg.from === from && msg.to === to && !msg.read) {
+          msg.read = true
+        }
+      });
+      return {
+        users: state.users,
+        chatMsgs: state.chatMsgs.map(msg => {
+          if (msg.from === from && msg.to === to && !msg.read) {
+            return {...msg, read: true}
+          } else {
+            return msg
+          }
+        }),
+        unReadCount: state.unReadCount - count
+      };
     default:
       return state
   }

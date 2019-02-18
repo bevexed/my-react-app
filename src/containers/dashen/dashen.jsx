@@ -7,7 +7,7 @@ import UserList from '../../components/user-list/userList'
 class dashen extends Component {
   componentDidMount() {
     // 获取 UserList
-    this.props.getUserList(this.props.user.type)
+    this.props.getUserList('dashen')
   }
 
   render() {

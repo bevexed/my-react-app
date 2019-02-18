@@ -46,14 +46,14 @@ class Main extends Component {
 
   navList = [
     {
-      path: '/laoban',
+      path: '/dashen',
       component: Dashen,
       title: '大神列表',
       icon: 'dashen',
       text: '大神',
       type: 'dashen'
     }, {
-      path: '/dashen',
+      path: '/laoban',
       component: Laoban,
       title: '老板列表',
       icon: 'laoban',
@@ -82,7 +82,7 @@ class Main extends Component {
       return <Redirect to={'/login'}/>
     }
 
-    const {user} = this.props;
+    const {user,unReadCount} = this.props;
     if (!user._id) {
       return null
     } else {
@@ -107,7 +107,7 @@ class Main extends Component {
           <Route path={'/chat/:userid'} component={Chat}/>
           <Route component={NotFound}/>
         </Switch>
-        {currentNav ? <NavFoot realNavList={this.realNavList}/> : null}
+        {currentNav ? <NavFoot realNavList={this.realNavList} unReadCount={unReadCount}/> : null}
 
       </div>
     )
@@ -115,6 +115,6 @@ class Main extends Component {
 }
 
 export default connect(
-  state => ({user: state.users}),
+  state => ({user: state.users, unReadCount: state.chat.unReadCount}),
   {getUserData}
 )(Main)

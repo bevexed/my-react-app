@@ -6,7 +6,7 @@ import '../../App.css';
 
 class NavFoot extends PureComponent {
   render() {
-    const {realNavList} = this.props;
+    const {realNavList, unReadCount} = this.props;
     const path = this.props.location.pathname;
     return (
       <div>
@@ -17,6 +17,7 @@ class NavFoot extends PureComponent {
           {
             realNavList.map(nav =>
               <TabBar.Item
+                badge={nav.path === '/message' ? unReadCount : 0}
                 key={nav.path}
                 title={nav.text}
                 icon={{uri: require(`./img/${nav.icon}.svg`)}}
@@ -33,7 +34,8 @@ class NavFoot extends PureComponent {
 }
 
 NavFoot.propTypes = {
-  realNavList: PropTypes.array.isRequired
+  realNavList: PropTypes.array.isRequired,
+  unReadCount: PropTypes.number.isRequired
 };
 
 export default withRouter(NavFoot);

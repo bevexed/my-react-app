@@ -11,7 +11,8 @@ import {
   RESET_USER,
   RECEIVE_USER_LIST,
   RECEIVE_MSG_LIST,
-  RECEIVE_MSG
+  RECEIVE_MSG,
+  MSG_READ
 } from "./action-types";
 import {
   reqRegister,
@@ -40,7 +41,10 @@ export const resetUser = msg => ({type: RESET_USER, data: msg});
 
 const receiveUserList = msg => ({type: RECEIVE_USER_LIST, data: msg});
 
-export const receiveMsgList = ({users, chatMsgs}) => ({type: RECEIVE_MSG_LIST, data: {users, chatMsgs}});
+export const receiveMsgList = ({users, chatMsgs, userid}) => ({type: RECEIVE_MSG_LIST, data: {users, chatMsgs, userid}});
+export const receiveMsg = (chatMsg, userid) => ({type: RECEIVE_MSG, data: {chatMsg, userid}});
+
+const msgRead = ({count, from, to}) => ({type: MSG_READ, data: {count, from, to}});
 
 // 注册
 export const register = (user) => {
@@ -59,7 +63,7 @@ export const register = (user) => {
     const result = await reqRegister(user);
     if (result.code === 0) {
       // 分发成功的同步action
-      getMsgList(dispatch);
+      getMsgList(dispatch, result.data._id);
       dispatch(authSuccess(result.data))
     } else {
       dispatch(errorMsg(result.msg))
@@ -82,7 +86,7 @@ export const login = (user) => {
     const result = await reqLogin(user);
     if (result.code === 0) {
       // 分发成功的同步action
-      getMsgList(dispatch);
+      getMsgList(dispatch, result.data._id);
       dispatch(authSuccess(result.data))
     } else {
       dispatch(errorMsg(result.msg))
@@ -114,7 +118,7 @@ export const getUserData = () => {
     getUser().then(
       res => {
         if (res.code === 0) {
-          getMsgList(dispatch);
+          getMsgList(dispatch, res.data._id);
           dispatch(receiveUser(res.data))
         } else {
           dispatch(resetUser(res.msg))
@@ -138,11 +142,14 @@ export const getUserList = (type) => {
 };
 
 // 单例
-function initIO() {
+function initIO(dispatch, userid) {
   if (!io.socket) {
-    io.socket = io(window.location.host);
-    io.socket.on('receiveMsg', function (data) {
-      console.log(data);
+    io.socket = io('ws://' + window.location.host);
+    io.socket.on('receiveMsg', function (chatMsg) {
+      console.log(chatMsg);
+      if (userid === chatMsg.from || userid === chatMsg.to) {
+        dispatch(receiveMsg(chatMsg, userid))
+      }
     })
   }
 }
@@ -157,13 +164,28 @@ export const sendMsg = (data) => {
 };
 
 // 获取消息列表
-function getMsgList(dispatch) {
+function getMsgList(dispatch, userid) {
+  initIO(dispatch, userid);
   reqMsgList().then(
     res => {
       if (res.code === 0) {
         const {users, chatMsgs} = res.data;
-        dispatch(receiveMsgList({users, chatMsgs}))
+        dispatch(receiveMsgList({users, chatMsgs, userid}))
       }
     }
   )
 }
+
+// 读取用户消息
+export const readMsg = (from, to) => {
+  return dispatch => {
+    reqReadMsg(from).then(
+      res => {
+        if (res.code === 0) {
+          const count = res.data;
+          dispatch(msgRead({count, from, to}))
+        }
+      }
+    )
+  }
+};

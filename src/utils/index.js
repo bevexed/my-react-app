@@ -10,5 +10,14 @@ export function getRedirectTo(type, header) {
     path += '-info'
   }
 
+  if (header) {
+    if (type === 'dashen') {
+      path = 'laoban'
+    } else {
+      path = 'dashen'
+    }
+  }
+
   return path
 }
+
