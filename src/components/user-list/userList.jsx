@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom'
 
+import QueueAnim from 'rc-queue-anim';
+
 import {
   WingBlank,
   WhiteSpace,
@@ -17,6 +19,7 @@ class UserList extends Component {
     const {userList} = this.props;
     return (
       <WingBlank style={{padding:'60px 0'}}>
+        <QueueAnim type='bottom'>
         {
           userList.map(user =>
             <div key={user._id}>
@@ -35,6 +38,7 @@ class UserList extends Component {
               </Card>
             </div>)
         }
+        </QueueAnim>
       </WingBlank>
     );
   }

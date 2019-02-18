@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
+import QueueAnim from 'rc-queue-anim';
+
 import {List, Badge} from "antd-mobile";
 
 const Item = List.Item;
@@ -52,6 +54,7 @@ class Message extends Component {
     return (
       <div>
         <List>
+          <QueueAnim type={'left'}>
           {
             lastMsgs.map(msg =>
               <Item
@@ -66,7 +69,7 @@ class Message extends Component {
             )
           }
 
-
+          </QueueAnim>
         </List>
       </div>
     );

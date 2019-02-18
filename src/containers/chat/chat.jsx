@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {sendMsg,readMsg} from "../../redux/actions";
+import {sendMsg, readMsg} from "../../redux/actions";
+
+import QueueAnim from 'rc-queue-anim';
 
 import './chat.css'
 import '../../App.css'
@@ -28,7 +30,7 @@ class Chat extends Component {
 
     const to = this.props.user._id;
     const from = this.props.match.params.userid;
-    this.props.readMsg(from,to);
+    this.props.readMsg(from, to);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -60,25 +62,28 @@ class Chat extends Component {
           icon={<Icon type="left"/>}
           onLeftClick={() => this.props.history.goBack()}
         >{users[targetId] ? users[targetId].username : null}</NavBar>
-        <List>
-          {
-            msgs.map(msg => {
-              if (meId === msg.from) {
-                return (
-                  <Item
-                    key={msg._id}
-                    className='chat-me'
-                    extra={'我'}
-                  >{msg.content}</Item>
-                )
-              } else {
-                return <Item key={msg._id} thumb={require('../../components/header-selector/1.png')}>{msg.content}</Item>
-              }
-            })
-          }
 
+          <List>
+            <QueueAnim className="queue-simple" type={'left'}>
+            {
+              msgs.map(msg => {
+                if (meId === msg.from) {
+                  return (
+                    <Item
+                      key={msg._id}
+                      className='chat-me'
+                      extra={'我'}
+                    >{msg.content}</Item>
+                  )
+                } else {
+                  return <Item key={msg._id} thumb={require('../../components/header-selector/1.png')}>{msg.content}</Item>
+                }
+              })
+            }
 
-        </List>
+        </QueueAnim>
+          </List>
+
         <div className={"am-tabs-tab-bar-wrap"}>
           <InputItem
             placeholder={"请输入"}
@@ -103,5 +108,5 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  {sendMsg,readMsg}
+  {sendMsg, readMsg}
 )(Chat);
